@@ -102,9 +102,10 @@ native builds at commit `d5439b9`.
 - The provider-logo upstream download URLs were not retained. The owner-approved
   compatibility use, hashes, mark ownership, non-endorsement notice, and removal
   path are recorded; no upstream asset license is claimed.
-- `labs@formm.mx` forwarding is not yet verified. GitHub private vulnerability
-  reporting is the active primary channel, so the unverified address is not
-  published as usable.
+- `labs@formm.mx` forwarding was unverified during the publication audit and
+  therefore was not initially published as usable. Pablo subsequently confirmed
+  the forwarding path active; GitHub private vulnerability reporting remains
+  the preferred channel and the address is now an active fallback.
 
 ## Gate matrix
 
