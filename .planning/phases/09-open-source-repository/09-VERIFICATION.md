@@ -45,11 +45,18 @@ An independent Claude review initially returned `REVIEW BLOCKED` with four
 concrete findings: an unrun CI build was described in the present tense,
 formatting lint lacked strict failure behavior, untracked generated project
 files could evade the check, and Xcode was not selected explicitly. The
-checkpoint corrects all four by labelling CI unrun, using strict format lint,
-checking complete project status, and selecting Xcode 16.4 on the macOS 15
-runner. The corrected delta passed the local checks and the narrowed re-review
-returned `REVIEW PASS`. The reviewer also noted and this checkpoint closed a
-non-blocking pipeline error-propagation gap in the project-cleanliness step.
+checkpoint corrected all four by labelling CI unrun, using strict format lint,
+checking complete project status, and initially selecting Xcode 16.4 on the
+macOS 15 runner. The corrected delta passed the local checks and the narrowed
+re-review returned `REVIEW PASS`. The reviewer also noted and this checkpoint
+closed a non-blocking pipeline error-propagation gap in the project-cleanliness
+step.
+
+The first live GitHub run then exposed a stronger SDK requirement that the
+review did not catch: Xcode 16.4 cannot compile the macOS 26 Liquid Glass symbols
+even though their use is runtime-guarded. CI now selects Xcode 26.3 from the same
+runner image. The remote CI gate remains unverified until the corrected run
+passes.
 
 ## Verification limits
 

@@ -30,13 +30,17 @@ current capability ledger is [.planning/STATE.md](.planning/STATE.md).
 ## Development requirements
 
 - macOS 15 or later
-- Xcode with Swift 6 support
+- Xcode 26 or later with Swift 6 support
 - [XcodeGen](https://github.com/yonaskolb/XcodeGen)
 - one or more supported provider CLIs for live provider testing
 
 The most recently recorded local baseline uses XcodeGen 2.44.1, Swift 6.3.3,
 Claude Code 2.1.214, Codex CLI 0.144.1, and Grok 0.2.103. Provider compatibility
 is version-sensitive and is not guaranteed beyond verified fixtures.
+
+The app includes macOS 26 Liquid Glass code behind runtime availability checks,
+so compilation still requires an SDK that defines those symbols. Older macOS
+versions use the material fallback at runtime.
 
 ## Build and test
 
