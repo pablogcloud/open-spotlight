@@ -203,6 +203,57 @@ final class LocalIndexTests: XCTestCase {
         XCTAssertEqual(statistics.documents, 2)
     }
 
+    func testCancelledRebuildLeavesPriorIndexSearchable() async throws {
+        let base = localIndexTestBase("CancelledRebuild")
+        let root = base.appending(path: "Approved", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        try Data("retained cancellation sentinel".utf8).write(to: root.appending(path: "retained.md"))
+        defer { try? FileManager.default.removeItem(at: base) }
+        let service = LocalIndexService(databaseURL: base.appending(path: "index.sqlite"))
+        _ = try await service.rebuild(roots: [root])
+        let gate = RebuildStartGate()
+
+        let rebuild = Task {
+            try await service.rebuild(roots: [root]) { progress in
+                guard progress.state == .indexing, progress.discovered == 0 else { return }
+                await gate.signal()
+                try? await Task.sleep(for: .seconds(5))
+            }
+        }
+        await gate.waitUntilStarted()
+        rebuild.cancel()
+
+        do {
+            _ = try await rebuild.value
+            XCTFail("Expected the rebuild to be cancelled")
+        } catch is CancellationError {
+            // Expected.
+        }
+        let retained = try await service.search("cancellation sentinel", roots: [root], limit: 4)
+        XCTAssertEqual(retained.first?.title, "retained")
+    }
+
+    func testRebuildReportsDeterministicRunCounters() async throws {
+        let base = localIndexTestBase("RunCounters")
+        let root = base.appending(path: "Approved", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        try Data("indexable text".utf8).write(to: root.appending(path: "good.md"))
+        try Data([0xFF, 0xFE]).write(to: root.appending(path: "malformed.md"))
+        try Data([0x89, 0x50]).write(to: root.appending(path: "image.png"))
+        defer { try? FileManager.default.removeItem(at: base) }
+        let service = LocalIndexService(databaseURL: base.appending(path: "index.sqlite"))
+
+        let result = try await service.rebuild(roots: [root])
+
+        XCTAssertEqual(result.discovered, 3)
+        XCTAssertEqual(result.processed, 2)
+        XCTAssertEqual(result.indexed, 1)
+        XCTAssertEqual(result.skipped, 2)
+        XCTAssertEqual(result.failed, 0)
+        XCTAssertEqual(result.documents, 1)
+        XCTAssertEqual(result.state, .complete)
+    }
+
     func testForbiddenRootFailsBeforeMutatingExistingIndex() async throws {
         let base = localIndexTestBase("ForbiddenRoot")
         let root = base.appending(path: "Approved", directoryHint: .isDirectory)
@@ -291,6 +342,24 @@ private struct IndexFixture {
             chunker: LocalTextChunker(targetCharacterCount: 800, overlapCharacterCount: 80),
             embedder: FixtureEmbeddingProvider()
         )
+    }
+}
+
+private actor RebuildStartGate {
+    private var started = false
+    private var waiters: [CheckedContinuation<Void, Never>] = []
+
+    func signal() {
+        started = true
+        waiters.forEach { $0.resume() }
+        waiters.removeAll()
+    }
+
+    func waitUntilStarted() async {
+        if started { return }
+        await withCheckedContinuation { continuation in
+            waiters.append(continuation)
+        }
     }
 }
 

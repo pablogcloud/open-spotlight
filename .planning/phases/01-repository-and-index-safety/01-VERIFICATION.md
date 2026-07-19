@@ -27,7 +27,7 @@
 
 ## Verification commands
 
-- `swift test`: 83 tests, zero failures.
+- `swift test`: 85 tests, zero failures after the audit-evidence additions.
 - Clean detached worktree at `3a243b2`: `xcodegen generate` passed; `swift test` built and ran 83 tests, zero failures.
 - Strict Swift 6 app typecheck with complete concurrency checking: passed.
 - Optimized standalone arm64 app compile: passed; `codesign --verify --deep --strict` passed after ad-hoc signing.
@@ -65,3 +65,23 @@
   hung for more than 90 seconds with tools, web, memory and subagents disabled;
   it was terminated. No automatic retry was made. Completion requires a later
   audit or Pablo's explicit waiver.
+
+### User-authorized retry
+
+- Prompt bytes: 1,530 (30 bytes over the audit contract; therefore not a valid
+  passing audit even if the response had passed)
+- Prompt SHA-256: `478250427cc108ca6d8f933635d17c773bf8d108a1b93bff93f8b5733541d2b0`
+- Exact response:
+
+  ```text
+  INSUFFICIENT
+  1. No evidence that scope is applied before SQL limits
+  2. No evidence for G3 honest state/counters
+  3. Cancellation retention not shown (only rebuild/failure)
+  ```
+
+- Disposition: blocked. The scope-before-limit regression already existed but
+  was not cited precisely. Two stronger integration tests were added afterward:
+  `testCancelledRebuildLeavesPriorIndexSearchable` and
+  `testRebuildReportsDeterministicRunCounters`. The LocalIndex suite now passes
+  16/16 and the full suite passes 85/85. No further Grok call was made.
