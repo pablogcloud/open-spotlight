@@ -1,7 +1,7 @@
 # Phase 1 verification - Repository truth and index safety
 
-**Status:** local gates passed; blocked on Grok audit verdict
-**Commit:** `3a243b2`
+**Status:** verified; local gates passed and the complete-evidence Grok re-audit returned `PASS`
+**Implementation commits:** `3a243b2`, `fddc8ca`
 
 ## Claims and gates
 
@@ -88,3 +88,21 @@
   16/16 and the full suite passes 85/85. No further Grok call was made. Pablo
   removed fixed audit size and count caps after this run because they encouraged
   evidence omission; future audits prioritize complete decisive evidence.
+
+### Complete-evidence re-audit
+
+- CLI: Grok 0.2.103
+- Prompt bytes: 5,637 (recorded for traceability, not used as a pass/fail limit)
+- Prompt SHA-256: `2a48800178a2a641b9ee38d7962be264c32ebe0c14b97d30aa8ce619a3c27320`
+- Exact response:
+
+  ```text
+  PASS
+  ```
+
+- Disposition: verified. The re-audit included every gate and directly addressed
+  all prior missing evidence: approved-root SQL scope is applied before limits
+  and counts, deterministic run state/counters are asserted, and cancellation
+  retention is proven by retrieving prior sentinel content. The current suite
+  passes 85/85. No evidence was removed to meet a size, output, excerpt, blocker,
+  or retry cap.

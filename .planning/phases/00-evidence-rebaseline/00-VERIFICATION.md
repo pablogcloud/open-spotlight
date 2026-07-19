@@ -1,6 +1,6 @@
 # Phase 0 verification - Evidence re-baseline
 
-**Status:** local gates passed; blocked on Grok audit verdict
+**Status:** verified; local gates passed and the complete-evidence Grok re-audit returned `PASS`
 **Commit:** `3a243b2`
 
 ## Claims and gates
@@ -64,6 +64,21 @@ Before Phase 1 the persisted root was `/`; the active database grew to 2,932 doc
   ```
 
 - Disposition: `NOT RUN`. The model returned no `PASS`, `FAIL`, or
-  `INSUFFICIENT` verdict before the CLI's one-turn limit. Per the audit budget,
-  this phase was not retried. Completion requires a later audit or Pablo's
-  explicit waiver.
+  `INSUFFICIENT` verdict before the CLI's one-turn limit. No verdict was recorded
+  from that invocation.
+
+### Complete-evidence re-audit
+
+- CLI: Grok 0.2.103
+- Prompt bytes: 2,886 (recorded for traceability, not used as a pass/fail limit)
+- Prompt SHA-256: `ee6bc0908d0eed2f3d50b0efa988d4cad2ddffe1988f70a8e88f8e2d3d43eb38`
+- Exact response:
+
+  ```text
+  PASS
+  ```
+
+- Disposition: verified. The re-audit included every gate, the current 85-test
+  result, the unsafe pre-fix index evidence, current ad-hoc signing/Gatekeeper
+  rejection, and all known limitations. No evidence was removed to meet a size,
+  output, excerpt, blocker, or retry cap.
