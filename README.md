@@ -46,9 +46,10 @@ swift test
 open OpenLauncher.xcodeproj
 ```
 
-The Swift package is the current reproducible verification path. Native Xcode
-Debug and Release builds are also exercised by CI; signing remains disabled for
-development builds.
+The Swift package is the current reproducible verification path. The committed
+CI definition is configured to exercise native Xcode Debug and Release builds,
+but it has not run on GitHub yet. Signing remains disabled for development
+builds.
 
 ## Provider model
 

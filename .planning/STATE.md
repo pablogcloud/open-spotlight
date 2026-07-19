@@ -24,7 +24,7 @@
 | Retrieved files supplied to the LLM | absent | Indexed suggestions currently open files; they do not create provider context |
 | Multi-file disclosure and citations | absent | Provider request supports one manually confirmed file only |
 | Extension SDK | absent | Product concept only |
-| GitHub open-source readiness | absent | No history, remote, license, community files, CI, or asset-rights record |
+| GitHub open-source readiness | partial | Source-preview docs, community templates, pinned CI definition and clean-worktree checks exist; license, name/logo rights, ownership, live CI and publication remain blocked |
 | Signed/notarized/updateable distribution | absent | Project signing is disabled |
 
 ## Truth rule
@@ -39,5 +39,7 @@ tests alone cannot establish completion.
 
 Implement Phase 2's versioned migrations, persistent approved roots and
 security-scoped bookmarks, durable queue/run generations, pause/resume/cancel,
-and crash recovery. Align the installed CoreSimulator/Xcode versions before the
-native Xcode gate is claimed.
+and crash recovery. In parallel, Phase 9 may resume only after the name,
+license, provider-logo, repository ownership and publication gates are approved.
+Align the installed CoreSimulator/Xcode versions before the native Xcode gate is
+claimed.

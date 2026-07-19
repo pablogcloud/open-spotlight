@@ -12,15 +12,20 @@ permissions:
 jobs:
   verify:
     runs-on: macos-15
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
     steps:
       - name: Check out source
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Record toolchain
-        run: swift --version
+        run: |
+          test -d "$DEVELOPER_DIR"
+          xcodebuild -version
+          swift --version
 
       - name: Check formatting
-        run: swift format lint --recursive OpenLauncher OpenLauncherTests Package.swift
+        run: swift format lint --strict --recursive OpenLauncher OpenLauncherTests Package.swift
 
       - name: Run Swift package tests
         run: swift test
@@ -39,7 +44,13 @@ jobs:
         run: xcodegen generate
 
       - name: Verify generated project is committed
-        run: git diff --exit-code -- OpenLauncher.xcodeproj
+        run: |
+          git status --porcelain --untracked-files=all -- OpenLauncher.xcodeproj \
+            > "$RUNNER_TEMP/xcode-project-status"
+          if test -s "$RUNNER_TEMP/xcode-project-status"; then
+            cat "$RUNNER_TEMP/xcode-project-status"
+            exit 1
+          fi
 
       - name: Build Debug app
         run: >-
