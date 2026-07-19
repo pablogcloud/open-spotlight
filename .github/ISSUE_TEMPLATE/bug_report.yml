@@ -1,0 +1,47 @@
+name: Bug report
+description: Report a reproducible Open Spotlight defect
+title: "bug: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: Do not report security vulnerabilities or include credentials, prompts, or private file contents here.
+  - type: input
+    id: version
+    attributes:
+      label: Commit or build
+      description: Provide the commit hash or local build identifier.
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS and hardware
+      description: Include macOS version and Apple silicon or Intel.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction
+      description: Provide deterministic steps using sanitized names and data.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized evidence
+      description: Include relevant logs or screenshots only after removing private data.
