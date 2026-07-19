@@ -1,15 +1,14 @@
 ---
 phase: 9
-status: in-progress
+status: audit-pending
 verified_at: 2026-07-19
 ---
 
-# Phase 9 Verification - Source preview checkpoint
+# Phase 9 Verification - Public source preview checkpoint
 
-Phase 9 is **not complete** and the repository has not been published. This
-checkpoint records only the locally reproducible source-preview foundation.
-The user/legal/external gates in `09-PLAN.md` remain open, so this phase is not
-eligible for its focused completion audit.
+The repository is now public, but Phase 9 is **not complete** until the focused
+Grok audit passes and PR #1 merges through the protected `main` branch. This
+checkpoint records the evidence available before that final audit.
 
 ## Implemented evidence
 
@@ -20,9 +19,8 @@ eligible for its focused completion audit.
 - The public copy labels the project pre-alpha, distinguishes implemented,
   partial and absent capabilities, explains provider prerequisites and local/
   remote data flow, and states that no supported or notarized binary exists.
-- The private staging repository is `pablogcloud/open-spotlight`. Draft PR #1
-  contains the verified source-preview work; no public-visibility action was
-  taken.
+- The private staging repository was `pablogcloud/open-spotlight`. Draft PR #1
+  remains the publication path into protected `main`.
 
 ## Local verification
 
@@ -64,38 +62,66 @@ runs. GitHub Actions run `29704664746` then passed strict formatting, all 85
 tests, XcodeGen regeneration/project cleanliness, and unsigned Debug and Release
 native builds at commit `d5439b9`.
 
+## Publication boundary verification
+
+- Pablo explicitly approved the `Open Spotlight` name, Apache-2.0 license,
+  compatibility-identification provider-logo use, personal GitHub ownership,
+  and outward publication.
+- Commit `0dc63eb` corrected stale public claims, made GitHub private
+  vulnerability reporting the primary security channel, and added hash-level
+  provenance for each provider image. The original upstream logo download URLs
+  were not retained; `NOTICE.md` states that limitation and claims no provider
+  redistribution license.
+- `gitleaks git --redact --no-banner .` scanned all 12 commits and reported no
+  leaks. A broad directory scan reported 44 matches only inside ignored Xcode
+  build attachments under `.build*`; no match was in the tracked tree or Git
+  history. The earlier explicit path/token scans also remained clean.
+- `actionlint -color`, strict Swift formatting, all 85 Swift tests, XcodeGen
+  regeneration/project cleanliness, and `git diff --check` passed locally.
+- GitHub Actions run `29706388376` passed strict formatting, all tests, project
+  regeneration, and unsigned Debug and Release builds for `0dc63eb`.
+- `https://github.com/pablogcloud/open-spotlight` is publicly reachable with
+  HTTP 200. GitHub private vulnerability reporting, Dependabot security updates,
+  secret scanning, and secret-scanning push protection are enabled.
+- `main` requires the `verify` status check and a pull request, enforces linear
+  history and conversation resolution, applies to administrators, and blocks
+  force pushes and deletion. CodeQL default setup has been requested for Swift;
+  its initial run must pass before the focused audit.
+
 ## Verification limits
 
-- The GitHub Actions workflow passes in the private staging repository. The
+- The GitHub Actions workflow passes in the public repository. The
   native builds are remote unsigned verification builds, not a signing,
   notarization or distribution claim.
-- `actionlint` is not installed on this machine, so only YAML parsing—not full
-  GitHub Actions semantic linting—was run.
-- The local token-pattern scan is a release hygiene check, not a complete secret
-  or history audit.
-- No open-source license is present. The source is not yet licensed for
-  redistribution.
+- Local and GitHub secret scanning reduce risk but cannot prove that every
+  possible secret pattern is absent.
+- The provider-logo upstream download URLs were not retained. The owner-approved
+  compatibility use, hashes, mark ownership, non-endorsement notice, and removal
+  path are recorded; no upstream asset license is claimed.
+- `labs@formm.mx` forwarding is not yet verified. GitHub private vulnerability
+  reporting is the active primary channel, so the unverified address is not
+  published as usable.
 
 ## Gate matrix
 
 | Gate | Status | Evidence or blocker |
 |---|---|---|
 | Honest README, limitations and data flow | pass locally | `README.md`, `PRIVACY.md`, `.planning/STATE.md` |
-| Community docs and templates | partial | Core files exist; final contacts, CODEOWNERS and Discussions/RFC ownership await repository decisions |
+| Community docs and templates | pass | Core files, CODEOWNERS, issue/PR templates, Discussions and maintainer ownership are configured |
 | Reproducible package tests and project generation | pass locally | Detached clean-worktree checks; 85/85 tests |
-| GitHub CI | pass | Run `29704664746` passed tests, regeneration and Debug/Release builds |
+| GitHub CI | pass | Run `29706388376` passed tests, regeneration and Debug/Release builds for the current head |
 | License and contributor-rights model | pass | Apache-2.0 and its contribution terms approved; `LICENSE` committed |
 | Product name/trademark treatment | owner decision recorded | `Open Spotlight` retained; non-affiliation notice committed; no legal clearance claim |
 | Provider-logo provenance and notices | owner decision recorded | Compatibility-identification use approved and bounded in `NOTICE.md`; no provider license claimed |
-| GitHub owner and repository policy | partial | `pablogcloud` private repo, CODEOWNERS, Discussions and squash-only policy configured; private branch protection requires GitHub Pro or public visibility |
-| Security reporting | partial | Vulnerability alerts and automated fixes enabled; `labs@formm.mx` forwarding is unverified and GitHub private vulnerability reporting is public-repository only |
-| Secret/history and asset-provenance audit | partial | Local tree scan passed; final history/assets audit depends on approved repository contents |
-| Outward publication | blocked | Requires explicit approval; no publication was attempted |
+| GitHub owner and repository policy | pass | Public `pablogcloud` repo, CODEOWNERS, Discussions, squash-only merge policy and protected `main` configured |
+| Security reporting | pass | GitHub private vulnerability reporting is enabled as the primary channel; the unverified email fallback is labelled inactive |
+| Secret/history and asset-provenance audit | pass with recorded limitation | Full history and tracked tree scan clean; logo hashes/ownership/use recorded, but upstream download URLs were not retained |
+| Outward publication | pass | Explicitly approved; public repository returns HTTP 200 |
+| Static analysis | pending | CodeQL default setup requested; initial Swift analysis must pass |
+| Focused Grok audit | pending | Run only after CodeQL and all machine gates pass |
 
 ## Completion rule
 
-Verify the security forwarding address, perform the final history/asset/
-claim-link review, enable the public-only branch and vulnerability-reporting
-controls at the publication boundary, and then run the focused Phase 9 Grok
-audit. Only a decisive audit `PASS` plus those external checks may change this
-record to verified.
+Wait for the initial CodeQL analysis, then run the focused Phase 9 Grok audit.
+Only a decisive audit `PASS`, a ready PR and a protected squash merge may change
+this record to verified.
