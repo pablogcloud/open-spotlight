@@ -68,8 +68,8 @@
 
 ### User-authorized retry
 
-- Prompt bytes: 1,530 (30 bytes over the audit contract; therefore not a valid
-  passing audit even if the response had passed)
+- Prompt bytes: 1,530 (recorded for traceability; prompt size is not a pass/fail
+  criterion under the revised audit policy)
 - Prompt SHA-256: `478250427cc108ca6d8f933635d17c773bf8d108a1b93bff93f8b5733541d2b0`
 - Exact response:
 
@@ -80,8 +80,11 @@
   3. Cancellation retention not shown (only rebuild/failure)
   ```
 
-- Disposition: blocked. The scope-before-limit regression already existed but
-  was not cited precisely. Two stronger integration tests were added afterward:
+- Disposition: blocked because Grok returned `INSUFFICIENT`, not because of the
+  prompt length. The scope-before-limit regression already existed but was not
+  cited precisely. Two stronger integration tests were added afterward:
   `testCancelledRebuildLeavesPriorIndexSearchable` and
   `testRebuildReportsDeterministicRunCounters`. The LocalIndex suite now passes
-  16/16 and the full suite passes 85/85. No further Grok call was made.
+  16/16 and the full suite passes 85/85. No further Grok call was made. Pablo
+  removed fixed audit size and count caps after this run because they encouraged
+  evidence omission; future audits prioritize complete decisive evidence.

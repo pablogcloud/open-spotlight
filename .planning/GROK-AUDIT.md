@@ -1,22 +1,25 @@
-# Bounded Grok Phase Audit
+# Grok Phase Audit
 
 ## Purpose
 
 Use Grok only after local verification is green to challenge unsupported
-completion claims. Keep the request small enough that one phase consumes little
-quota. Grok is read-only and may not modify code, run tools, or expand scope.
+completion claims. Keep the request focused and quota-conscious, but never omit
+required evidence to satisfy a fixed size or count. Grok is read-only and may
+not modify code, run tools, or expand scope.
 
-## Budget
+## Operating policy
 
-- One audit per phase; no automatic retry. A second call requires a concrete
-  release blocker to have been corrected.
-- Maximum input: 1,500 characters.
-- Maximum output: 120 tokens.
-- Include only acceptance criteria, test/build exit summaries, diff stat, and up
-  to five decisive `file:line` excerpts. Never attach the repository or logs.
+- Run the audit only after local verification is green.
+- Do not loop automatically. Retry after a concrete blocker has been corrected
+  or when Pablo asks for another audit.
+- Keep prompts concise by removing repetition, never by dropping a gate, known
+  limitation, or decisive evidence.
+- Include acceptance criteria, test/build exit summaries, diff stat, and all
+  evidence needed to substantiate every gate. Do not attach the whole repository
+  or unfiltered logs unless the auditor needs them and Pablo approves.
 - Assign every acceptance gate a short ID (`G1`, `G2`, ...). The prompt must
-  include every gate ID and its `PASS`/`FAIL` result; only evidence excerpts are
-  capped at five. A phase with a failed or omitted gate cannot be submitted.
+  include every gate ID and its `PASS`/`FAIL` result. A phase with a failed or
+  omitted gate cannot be submitted.
 - If Grok is unavailable or quota-limited, record `NOT RUN`; never fabricate a
   pass. Completion requires a user waiver or a later audit.
 
@@ -27,16 +30,17 @@ You are a read-only release auditor. Check only whether the evidence proves the
 phase claims; do not redesign or suggest extras.
 
 PHASE: <number and name>
-CLAIMS: <maximum five one-line claims>
+CLAIMS: <concise one-line claims>
 GATES: <every gate ID with PASS/FAIL; none may be omitted>
-EVIDENCE: <command/result summaries and maximum five file:line excerpts>
+EVIDENCE: <command/result summaries and decisive file:line excerpts>
 KNOWN LIMITATIONS: <short list>
 
 Return exactly one of:
 PASS
-FAIL\n1. <file:line or missing evidence> - <blocker>  (maximum three)
-INSUFFICIENT\n1. <missing evidence>  (maximum three)
-No preamble. Maximum 120 tokens.
+FAIL\n1. <file:line or missing evidence> - <blocker>
+INSUFFICIENT\n1. <missing evidence>
+No preamble. Be concise, but include every blocker or missing item that affects
+the verdict.
 ```
 
 ## Evidence record

@@ -41,5 +41,4 @@ verification: required
 
 Run routing, prompt snapshot, injection, citation and lifecycle tests; capture an
 end-to-end sanitized three-provider file question. Record `05-VERIFICATION.md`,
-then run the bounded Grok audit.
-
+then run the focused Grok audit.

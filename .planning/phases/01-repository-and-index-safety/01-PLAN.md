@@ -49,4 +49,4 @@ verification: required
 
 Run scope/property tests, a destructive-rebuild regression test, full build/test,
 and the real folder-picker/status flow. Record `01-VERIFICATION.md`, then use the
-bounded Grok audit.
+focused Grok audit.

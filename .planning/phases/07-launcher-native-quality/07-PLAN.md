@@ -46,5 +46,4 @@ verification: required
 
 Run source/routing/performance tests and drive the signed-development app through
 the committed lifecycle/motion/accessibility harnesses. Record
-`07-VERIFICATION.md`, then run the bounded Grok audit.
-
+`07-VERIFICATION.md`, then run the focused Grok audit.

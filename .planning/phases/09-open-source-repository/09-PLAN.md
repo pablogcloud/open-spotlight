@@ -50,5 +50,5 @@ remain labelled absent/partial and no binary is attached.
 ## Verification
 
 Run clean-clone, CI-equivalent, secret/license/claim-link checks and review the
-rendered public documentation. Record `09-VERIFICATION.md`, then run the bounded
+rendered public documentation. Record `09-VERIFICATION.md`, then run the focused
 Grok audit before requesting publication approval.

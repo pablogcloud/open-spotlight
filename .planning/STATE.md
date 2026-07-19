@@ -1,7 +1,7 @@
 # Project State
 
 **Current phase:** 1 - Repository truth and index safety
-**Status:** Local implementation and verification passed; Grok audit returned no verdict, so Phase 1 is not complete
+**Status:** Local implementation and verification passed; Grok audit returned `INSUFFICIENT`, so Phase 1 is not complete
 **Branch:** `feat/walking-skeleton`
 **Repository:** no commits, no configured public remote
 
@@ -16,7 +16,7 @@
 | App/file/command suggestions | partial | Metadata/index suggestions exist; quality and routing remain incomplete |
 | Manual one-file disclosure | partial | Single-file prompt types exist; end-to-end provider disclosure gate must be rerun |
 | Local SQLite FTS and embeddings | partial | Prototype indexes limited UTF-8 formats and can return local references |
-| Safe approved-root indexing | implemented-unverified | Root/scope, preservation and live migration gates pass; required Grok verdict is unavailable |
+| Safe approved-root indexing | implemented-unverified | Root/scope, preservation and live migration gates pass; latest Grok audit was insufficient and the follow-up evidence has not been re-audited |
 | Durable pause/resume/crash recovery | absent | Rebuild deletes the index and has no durable queue/run checkpoint |
 | FSEvents incremental updates | absent | No persistent change-event pipeline |
 | PDF/Office extraction | absent | Current support is TXT/Markdown/JSON/CSV only |
@@ -31,12 +31,13 @@
 
 Only a phase `NN-VERIFICATION.md` may move a capability to `verified`. That file
 must contain the commands and outcomes, real-app evidence where applicable,
-known limitations, and the result of the bounded Grok audit. Planning prose,
+known limitations, and the result of the focused Grok audit. Planning prose,
 screenshots without interaction evidence, generated projects, or passing unit
 tests alone cannot establish completion.
 
 ## Immediate next action
 
-Obtain or explicitly waive the missing bounded Grok verdicts, and align the
-installed CoreSimulator/Xcode versions for the native Xcode gate. Do not begin
-Phase 2 or describe Phase 1 as complete until that dependency is resolved.
+Run a focused Grok re-audit with the complete follow-up evidence, or explicitly
+waive that verdict, and align the installed CoreSimulator/Xcode versions for the
+native Xcode gate. Do not begin Phase 2 or describe Phase 1 as complete until
+those dependencies are resolved.

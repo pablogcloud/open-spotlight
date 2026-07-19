@@ -52,4 +52,4 @@ reason and user approval recorded; they cannot be relaxed after measurements.
 
 Run FSEvents integration, resource sampling, burst/coalescing, storage and idle-
 CPU tests on a controlled corpus. Record `03-VERIFICATION.md`, then run the
-bounded Grok audit.
+focused Grok audit.

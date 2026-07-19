@@ -40,5 +40,4 @@ verification: required
 ## Verification
 
 Run fixtures, environment capture, process-tree and lifecycle tests plus opt-in
-live probes. Record `06-VERIFICATION.md`, then run the bounded Grok audit.
-
+live probes. Record `06-VERIFICATION.md`, then run the focused Grok audit.

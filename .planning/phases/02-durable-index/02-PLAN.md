@@ -36,5 +36,4 @@ verification: required
 
 Run deterministic crash/restart and migration harnesses plus full build/test;
 exercise pause/relaunch/resume in the app. Record `02-VERIFICATION.md`, then run
-the bounded Grok audit.
-
+the focused Grok audit.

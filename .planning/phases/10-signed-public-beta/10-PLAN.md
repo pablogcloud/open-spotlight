@@ -46,6 +46,5 @@ verification: required
 ## Verification
 
 Run archive/sign/notarize/package/update/redaction and clean-Mac acceptance suites.
-Record `10-VERIFICATION.md`, then run the bounded Grok audit. Request explicit
+Record `10-VERIFICATION.md`, then run the focused Grok audit. Request explicit
 release approval only after every gate is green.
-

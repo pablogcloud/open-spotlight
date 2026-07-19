@@ -34,4 +34,4 @@ verification: required
 
 Run the complete local suite, inspect the installed app and database read-only,
 exercise search/provider/index routes, write `00-VERIFICATION.md`, then run the
-single bounded Grok audit in `../../GROK-AUDIT.md`.
+focused Grok audit in `../../GROK-AUDIT.md`.
