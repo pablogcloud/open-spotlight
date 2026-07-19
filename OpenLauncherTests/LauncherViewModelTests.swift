@@ -45,15 +45,19 @@ final class LauncherViewModelTests: XCTestCase {
 
     XCTAssertEqual(model.runState, .awaitingDisclosure)
     XCTAssertEqual(model.selectedFile?.contents, "Private project notes")
-    XCTAssertEqual(runner.startCount, 0, "No provider process may start before confirmation")
+    let startCountBeforeConfirmation = await runner.startCount
+    XCTAssertEqual(
+      startCountBeforeConfirmation, 0, "No provider process may start before confirmation")
 
     model.confirmFileAndSubmit()
-    for _ in 0..<20 where runner.startCount == 0 { await Task.yield() }
+    await runner.waitUntilStarted()
 
-    let sentPayload = runner.lastInvocation?.standardInput.map {
+    let startCount = await runner.startCount
+    let invocation = await runner.lastInvocation
+    let sentPayload = invocation?.standardInput.map {
       String(decoding: $0, as: UTF8.self)
     }
-    XCTAssertEqual(runner.startCount, 1)
+    XCTAssertEqual(startCount, 1)
     XCTAssertEqual(sentPayload?.components(separatedBy: "Private project notes").count ?? 0, 2)
   }
 
@@ -255,7 +259,8 @@ final class LauncherViewModelTests: XCTestCase {
     try await Task.sleep(for: .milliseconds(120))
 
     XCTAssertEqual(model.suggestions.map(\.title), ["Find documents about budget"])
-    XCTAssertEqual(runner.startCount, 0)
+    let startCount = await runner.startCount
+    XCTAssertEqual(startCount, 0)
   }
 
   func testCommandSubmitBypassesSelectedSuggestionAndStartsProvider() async throws {
@@ -295,9 +300,10 @@ final class LauncherViewModelTests: XCTestCase {
     try await Task.sleep(for: .milliseconds(120))
 
     model.submitToProvider()
-    for _ in 0..<30 where runner.startCount == 0 { await Task.yield() }
+    await runner.waitUntilStarted()
 
-    XCTAssertEqual(runner.startCount, 1)
+    let startCount = await runner.startCount
+    XCTAssertEqual(startCount, 1)
     XCTAssertTrue(model.suggestions.isEmpty)
   }
 
@@ -310,7 +316,8 @@ final class LauncherViewModelTests: XCTestCase {
     model.submit()
     for _ in 0..<20 { await Task.yield() }
 
-    XCTAssertEqual(runner.startCount, 0)
+    let startCount = await runner.startCount
+    XCTAssertEqual(startCount, 0)
     XCTAssertEqual(model.runState, .ready)
   }
 
@@ -334,7 +341,8 @@ final class LauncherViewModelTests: XCTestCase {
     model.submit()
     for _ in 0..<20 { await Task.yield() }
 
-    XCTAssertEqual(runner.startCount, 0)
+    let startCount = await runner.startCount
+    XCTAssertEqual(startCount, 0)
     XCTAssertEqual(model.runState, .ready)
   }
 
@@ -358,7 +366,8 @@ final class LauncherViewModelTests: XCTestCase {
     model.submit()
     for _ in 0..<20 { await Task.yield() }
 
-    XCTAssertEqual(runner.startCount, 0)
+    let startCount = await runner.startCount
+    XCTAssertEqual(startCount, 0)
     XCTAssertEqual(model.runState, .ready)
   }
 
@@ -379,9 +388,10 @@ final class LauncherViewModelTests: XCTestCase {
     ]
 
     model.activateSuggestion(at: 0)
-    for _ in 0..<30 where runner.startCount == 0 { await Task.yield() }
+    await runner.waitUntilStarted()
 
-    XCTAssertEqual(runner.startCount, 1)
+    let startCount = await runner.startCount
+    XCTAssertEqual(startCount, 1)
   }
 
   func testAIHistorySuggestionIsNotTheDefaultReturnTarget() async throws {
@@ -424,7 +434,8 @@ final class LauncherViewModelTests: XCTestCase {
     try await Task.sleep(for: .milliseconds(120))
 
     XCTAssertEqual(model.selectedSuggestion?.kind, .prompt)
-    XCTAssertEqual(runner.startCount, 0)
+    let startCount = await runner.startCount
+    XCTAssertEqual(startCount, 0)
   }
 
   func testRetryStartsProviderExplicitly() async {
@@ -434,9 +445,10 @@ final class LauncherViewModelTests: XCTestCase {
     model.runState = .failed
 
     model.retry()
-    for _ in 0..<30 where runner.startCount == 0 { await Task.yield() }
+    await runner.waitUntilStarted()
 
-    XCTAssertEqual(runner.startCount, 1)
+    let startCount = await runner.startCount
+    XCTAssertEqual(startCount, 1)
   }
 
   func testChangingQueryImmediatelyInvalidatesRenderedSuggestions() {
@@ -644,24 +656,29 @@ private actor SuspendingLocalIndexService: LocalIndexServicing {
   func clear(roots: [URL]) {}
 }
 
-private final class CountingProcessRunner: ProcessRunning, @unchecked Sendable {
-  private let lock = NSLock()
-  private var count = 0
-  private var invocation: ProcessInvocation?
-
-  var startCount: Int { lock.withLock { count } }
-  var lastInvocation: ProcessInvocation? { lock.withLock { invocation } }
+private actor CountingProcessRunner: ProcessRunning {
+  private(set) var startCount = 0
+  private(set) var lastInvocation: ProcessInvocation?
+  private var startWaiters: [CheckedContinuation<Void, Never>] = []
 
   func start(_ invocation: ProcessInvocation) async throws -> ProcessSession {
-    lock.withLock {
-      count += 1
-      self.invocation = invocation
-    }
+    startCount += 1
+    lastInvocation = invocation
+    let waiters = startWaiters
+    startWaiters.removeAll()
+    for waiter in waiters { waiter.resume() }
     let stream = AsyncThrowingStream<ProcessOutputEvent, any Error> { continuation in
       continuation.yield(.terminated(exitCode: 0, reason: .exit))
       continuation.finish()
     }
     return ProcessSession(events: stream, cancellation: {}, runningCheck: { false })
+  }
+
+  func waitUntilStarted() async {
+    guard startCount == 0 else { return }
+    await withCheckedContinuation { continuation in
+      startWaiters.append(continuation)
+    }
   }
 }
 

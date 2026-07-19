@@ -55,8 +55,11 @@ step.
 The first live GitHub run then exposed a stronger SDK requirement that the
 review did not catch: Xcode 16.4 cannot compile the macOS 26 Liquid Glass symbols
 even though their use is runtime-guarded. CI now selects Xcode 26.3 from the same
-runner image. The remote CI gate remains unverified until the corrected run
-passes.
+runner image. The next run compiled and executed all 85 tests, exposing a
+CI-only scheduler race in the attachment-disclosure test: its fixed sequence of
+`Task.yield()` calls could finish before the provider task started. The test now
+waits on the fake runner's explicit start signal and passed ten repeated local
+runs. The remote CI gate remains unverified until the corrected run passes.
 
 ## Verification limits
 
