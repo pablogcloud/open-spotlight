@@ -2,8 +2,8 @@
 
 **Current phase:** 2 - Durable resumable index
 **Status:** Phases 0 and 1 are verified; Phase 2 implementation has not started
-**Branch:** `feat/walking-skeleton`
-**Repository:** public at `pablogcloud/open-spotlight`; draft PR #1 targets protected `main`
+**Branch:** `main` after protected PR #1 publication merge
+**Repository:** public at `pablogcloud/open-spotlight`
 
 ## Capability ledger
 
@@ -24,7 +24,7 @@
 | Retrieved files supplied to the LLM | absent | Indexed suggestions currently open files; they do not create provider context |
 | Multi-file disclosure and citations | absent | Provider request supports one manually confirmed file only |
 | Extension SDK | absent | Product concept only |
-| GitHub open-source readiness | partial | Public source preview, Apache-2.0, notices, community files, protected `main`, private vulnerability reporting, secret scanning and live green CI exist; CodeQL, focused Grok audit and PR merge remain |
+| GitHub open-source readiness | verified | Phase 9 proves public reproducible source, Apache-2.0, governance/notices, protected `main`, private vulnerability reporting, secret scanning, green CI and CodeQL, plus a focused Grok audit `PASS`; the verified record is delivered by PR #1's protected merge |
 | Signed/notarized/updateable distribution | absent | Project signing is disabled |
 
 ## Truth rule
@@ -39,6 +39,5 @@ tests alone cannot establish completion.
 
 Implement Phase 2's versioned migrations, persistent approved roots and
 security-scoped bookmarks, durable queue/run generations, pause/resume/cancel,
-and crash recovery. In parallel, finish Phase 9 by passing CodeQL and the focused
-Grok audit, then merge PR #1 through protected `main`. Align the installed
-CoreSimulator/Xcode versions before any new native real-app gate is claimed.
+and crash recovery. Align the installed CoreSimulator/Xcode versions before any
+new native real-app gate is claimed.

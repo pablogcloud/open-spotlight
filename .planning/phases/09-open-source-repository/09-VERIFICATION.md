@@ -1,14 +1,14 @@
 ---
 phase: 9
-status: audit-pending
+status: verified
 verified_at: 2026-07-19
 ---
 
-# Phase 9 Verification - Public source preview checkpoint
+# Phase 9 Verification - Public source release
 
-The repository is now public, but Phase 9 is **not complete** until the focused
-Grok audit passes and PR #1 merges through the protected `main` branch. This
-checkpoint records the evidence available before that final audit.
+The repository is public, the publication gates passed, and the focused Grok
+audit returned `PASS`. This verified record becomes authoritative when delivered
+to protected `main` by the squash merge of PR #1.
 
 ## Implemented evidence
 
@@ -78,15 +78,19 @@ native builds at commit `d5439b9`.
   history. The earlier explicit path/token scans also remained clean.
 - `actionlint -color`, strict Swift formatting, all 85 Swift tests, XcodeGen
   regeneration/project cleanliness, and `git diff --check` passed locally.
-- GitHub Actions run `29706388376` passed strict formatting, all tests, project
-  regeneration, and unsigned Debug and Release builds for `0dc63eb`.
+- GitHub Actions run `29706913188` passed strict formatting, all 85 tests,
+  project regeneration, and unsigned Debug and Release builds for `9cda928`.
+- A fresh unauthenticated clone of the public feature branch regenerated the
+  Xcode project and passed all 85 Swift tests, proving the public source can be
+  built without private repository access.
 - `https://github.com/pablogcloud/open-spotlight` is publicly reachable with
   HTTP 200. GitHub private vulnerability reporting, Dependabot security updates,
   secret scanning, and secret-scanning push protection are enabled.
 - `main` requires the `verify` status check and a pull request, enforces linear
   history and conversation resolution, applies to administrators, and blocks
-  force pushes and deletion. A pinned manual-build CodeQL workflow targets
-  Swift with Xcode 26.3; its initial run must pass before the focused audit.
+  force pushes and deletion. The pinned manual-build CodeQL workflow analyzed
+  the Swift source with Xcode 26.3 successfully in run `29706913195`; GitHub
+  reported zero open code-scanning alerts after the run.
 
 ## Verification limits
 
@@ -109,7 +113,7 @@ native builds at commit `d5439b9`.
 | Honest README, limitations and data flow | pass locally | `README.md`, `PRIVACY.md`, `.planning/STATE.md` |
 | Community docs and templates | pass | Core files, CODEOWNERS, issue/PR templates, Discussions and maintainer ownership are configured |
 | Reproducible package tests and project generation | pass locally | Detached clean-worktree checks; 85/85 tests |
-| GitHub CI | pass | Run `29706388376` passed tests, regeneration and Debug/Release builds for the current head |
+| GitHub CI | pass | Run `29706913188` passed tests, regeneration and Debug/Release builds for `9cda928` |
 | License and contributor-rights model | pass | Apache-2.0 and its contribution terms approved; `LICENSE` committed |
 | Product name/trademark treatment | owner decision recorded | `Open Spotlight` retained; non-affiliation notice committed; no legal clearance claim |
 | Provider-logo provenance and notices | owner decision recorded | Compatibility-identification use approved and bounded in `NOTICE.md`; no provider license claimed |
@@ -117,11 +121,25 @@ native builds at commit `d5439b9`.
 | Security reporting | pass | GitHub private vulnerability reporting is enabled as the primary channel; the unverified email fallback is labelled inactive |
 | Secret/history and asset-provenance audit | pass with recorded limitation | Full history and tracked tree scan clean; logo hashes/ownership/use recorded, but upstream download URLs were not retained |
 | Outward publication | pass | Explicitly approved; public repository returns HTTP 200 |
-| Static analysis | pending | Pinned manual-build Swift CodeQL workflow added; initial analysis must pass |
-| Focused Grok audit | pending | Run only after CodeQL and all machine gates pass |
+| Static analysis | pass | Pinned manual-build Swift CodeQL run `29706913195` passed; zero open code-scanning alerts |
+| Focused Grok audit | pass | Grok CLI 0.2.103 session `019f7ca4-7152-7053-a289-cb8d044e3429` returned `PASS` |
+
+## Focused Grok audit
+
+- Auditor: Grok CLI `0.2.103 (89c3d36fb6f1)`
+- Successful session: `019f7ca4-7152-7053-a289-cb8d044e3429`
+- Prompt size: 4,078 bytes (recorded for traceability, not used as a limit)
+- Prompt SHA-256: `b004f95e0c9cb366eaedc5dd6e739be9d59e4bdcf94b3fb8e1a19d639cb86c62`
+- Restrictions: no web search, no memory, no subagents, only `Read` and
+  `ListDir` tools; no turn cap
+- Exact final verdict: `PASS`
+
+The first invocation, session `019f7ca3-2318-75d3-a722-44945517d0b3`, produced
+no verdict because plan permissions stopped its requested file inspections. It
+is not counted as an audit result. The successful retry used the same prompt and
+gave Grok only read/list capabilities.
 
 ## Completion rule
 
-Wait for the initial manual-build CodeQL analysis, then run the focused Phase 9 Grok audit.
-Only a decisive audit `PASS`, a ready PR and a protected squash merge may change
-this record to verified.
+Satisfied: every machine gate passed, the focused audit returned `PASS`, and
+this record is published only through PR #1's protected squash merge to `main`.
