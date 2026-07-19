@@ -34,5 +34,4 @@ verification: required
 ## Verification
 
 Run schema/property/security/conformance tests and one real example command.
-Record `08-VERIFICATION.md`, then run the bounded Grok audit.
-
+Record `08-VERIFICATION.md`, then run the focused Grok audit.

@@ -24,8 +24,8 @@ explicit gaps rather than implied follow-up polish.
 - **Source preview:** public code labelled pre-alpha, with no supported binary.
 - **Public beta:** signed/notarized binary with documented privacy and support
   boundaries.
-- **Grok audit:** a small read-only review of already-compressed evidence. It is
-  a guard against unsupported claims, not a substitute for tests.
+- **Grok audit:** a focused read-only review of concise but complete evidence.
+  It is a guard against unsupported claims, not a substitute for tests.
 
 ## Non-negotiable product boundaries
 
@@ -53,8 +53,8 @@ explicit gaps rather than implied follow-up polish.
    behavior that unit tests cannot prove.
 6. Write `NN-VERIFICATION.md` with exact commands, outcomes, artifacts, residual
    risks, and capability-status changes.
-7. Run the single bounded Grok audit from `GROK-AUDIT.md`. Do not retry
-   automatically; a second call is reserved for a corrected release blocker.
+7. Run the focused Grok audit from `GROK-AUDIT.md`. Do not loop automatically;
+   retry after correcting a concrete release blocker or when Pablo asks.
 8. Update `STATE.md` only from the verification record.
 
 ## Phase map
@@ -127,5 +127,5 @@ Implementation can proceed without these decisions, but the named release cannot
 - Index crash, scope, resource, and retrieval benchmarks pass.
 - Provider compatibility matrix is current and limitations are visible.
 - Privacy, security, accessibility, diagnostics and rollback gates pass.
-- Final bounded Grok audit and a non-Grok adversarial code review have no open
+- Final focused Grok audit and a non-Grok adversarial code review have no open
   release blockers.

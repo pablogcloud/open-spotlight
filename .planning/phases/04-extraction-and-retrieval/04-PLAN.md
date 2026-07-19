@@ -38,5 +38,4 @@ verification: required
 
 Run extractor fixtures, fuzz/malformed inputs, benchmark and disabled-embedding
 tests; inspect representative results in the app. Record `04-VERIFICATION.md`,
-then run the bounded Grok audit.
-
+then run the focused Grok audit.

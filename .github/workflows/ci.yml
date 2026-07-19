@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: macos-15
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.3.app/Contents/Developer
+    steps:
+      - name: Check out source
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Record toolchain
+        run: |
+          test -d "$DEVELOPER_DIR"
+          xcodebuild -version
+          swift --version
+
+      - name: Check formatting
+        run: swift format lint --strict --recursive OpenLauncher OpenLauncherTests Package.swift
+
+      - name: Run Swift package tests
+        run: swift test
+
+      - name: Install pinned XcodeGen
+        run: |
+          curl -fsSL \
+            -o "$RUNNER_TEMP/xcodegen.zip" \
+            https://github.com/yonaskolb/XcodeGen/releases/download/2.44.1/xcodegen.zip
+          echo "a2e905fb68446e9bb4008cdfe2e13e3f176d0cbcca828b71770f8e53fca91b73  $RUNNER_TEMP/xcodegen.zip" \
+            | shasum -a 256 -c -
+          ditto -x -k "$RUNNER_TEMP/xcodegen.zip" "$RUNNER_TEMP/xcodegen"
+          echo "$RUNNER_TEMP/xcodegen/xcodegen/bin" >> "$GITHUB_PATH"
+
+      - name: Regenerate Xcode project
+        run: xcodegen generate
+
+      - name: Verify generated project is committed
+        run: |
+          git status --porcelain --untracked-files=all -- OpenLauncher.xcodeproj \
+            > "$RUNNER_TEMP/xcode-project-status"
+          if test -s "$RUNNER_TEMP/xcode-project-status"; then
+            cat "$RUNNER_TEMP/xcode-project-status"
+            exit 1
+          fi
+
+      - name: Build Debug app
+        run: >-
+          xcodebuild -project OpenLauncher.xcodeproj -scheme OpenLauncher
+          -configuration Debug CODE_SIGNING_ALLOWED=NO build
+
+      - name: Build Release app
+        run: >-
+          xcodebuild -project OpenLauncher.xcodeproj -scheme OpenLauncher
+          -configuration Release CODE_SIGNING_ALLOWED=NO build
