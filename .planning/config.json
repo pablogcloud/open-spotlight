@@ -1,0 +1,12 @@
+{
+  "mode": "mvp",
+  "workflow": "manual-gsd-fallback",
+  "verification": {
+    "tests": true,
+    "build": true,
+    "visual": true,
+    "providerProbes": true
+  },
+  "notes": "The installed GSD skills reference a missing ~/.Codex/get-shit-done runtime. Artifacts follow the same project/requirements/roadmap/state/phase-plan contract."
+}
+
