@@ -3,7 +3,7 @@
 **Current phase:** 2 - Durable resumable index
 **Status:** Phases 0 and 1 are verified; Phase 2 implementation has not started
 **Branch:** `feat/walking-skeleton`
-**Repository:** initialized local history; no configured public remote
+**Repository:** private staging remote at `pablogcloud/open-spotlight`; draft PR #1 targets `main`
 
 ## Capability ledger
 
@@ -24,7 +24,7 @@
 | Retrieved files supplied to the LLM | absent | Indexed suggestions currently open files; they do not create provider context |
 | Multi-file disclosure and citations | absent | Provider request supports one manually confirmed file only |
 | Extension SDK | absent | Product concept only |
-| GitHub open-source readiness | partial | Source-preview docs, community templates, pinned CI definition and clean-worktree checks exist; license, name/logo rights, ownership, live CI and publication remain blocked |
+| GitHub open-source readiness | partial | Apache-2.0, notices, community files, private remote, draft PR and live green CI exist; security-email verification, public-only protections/reporting, final audit and publication remain blocked |
 | Signed/notarized/updateable distribution | absent | Project signing is disabled |
 
 ## Truth rule

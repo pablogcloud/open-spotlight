@@ -20,7 +20,8 @@ eligible for its focused completion audit.
 - The public copy labels the project pre-alpha, distinguishes implemented,
   partial and absent capabilities, explains provider prerequisites and local/
   remote data flow, and states that no supported or notarized binary exists.
-- The repository has no configured remote and no outward publication action was
+- The private staging repository is `pablogcloud/open-spotlight`. Draft PR #1
+  contains the verified source-preview work; no public-visibility action was
   taken.
 
 ## Local verification
@@ -59,15 +60,15 @@ runner image. The next run compiled and executed all 85 tests, exposing a
 CI-only scheduler race in the attachment-disclosure test: its fixed sequence of
 `Task.yield()` calls could finish before the provider task started. The test now
 waits on the fake runner's explicit start signal and passed ten repeated local
-runs. The remote CI gate remains unverified until the corrected run passes.
+runs. GitHub Actions run `29704664746` then passed strict formatting, all 85
+tests, XcodeGen regeneration/project cleanliness, and unsigned Debug and Release
+native builds at commit `d5439b9`.
 
 ## Verification limits
 
-- The GitHub Actions workflow exists but cannot be claimed passing until it runs
-  in the selected public/private GitHub repository.
-- Native Debug and Release `xcodebuild` jobs are defined in CI but were not
-  re-claimed locally; the existing host CoreSimulator/Xcode alignment blocker
-  remains recorded in project state.
+- The GitHub Actions workflow passes in the private staging repository. The
+  native builds are remote unsigned verification builds, not a signing,
+  notarization or distribution claim.
 - `actionlint` is not installed on this machine, so only YAML parsing—not full
   GitHub Actions semantic linting—was run.
 - The local token-pattern scan is a release hygiene check, not a complete secret
@@ -82,17 +83,19 @@ runs. The remote CI gate remains unverified until the corrected run passes.
 | Honest README, limitations and data flow | pass locally | `README.md`, `PRIVACY.md`, `.planning/STATE.md` |
 | Community docs and templates | partial | Core files exist; final contacts, CODEOWNERS and Discussions/RFC ownership await repository decisions |
 | Reproducible package tests and project generation | pass locally | Detached clean-worktree checks; 85/85 tests |
-| GitHub CI | implemented-unverified | Workflow is pinned and committed; no remote run exists |
-| License and contributor-rights model | blocked | Requires Pablo's approval |
-| Product name/trademark treatment | blocked | Requires Pablo's decision and, if retained, qualified advice/permission |
-| Provider-logo provenance and notices | blocked | Source/usage rights have not been approved or documented |
-| GitHub owner, security contact and branch policy | blocked | Repository ownership has not been selected |
+| GitHub CI | pass | Run `29704664746` passed tests, regeneration and Debug/Release builds |
+| License and contributor-rights model | pass | Apache-2.0 and its contribution terms approved; `LICENSE` committed |
+| Product name/trademark treatment | owner decision recorded | `Open Spotlight` retained; non-affiliation notice committed; no legal clearance claim |
+| Provider-logo provenance and notices | owner decision recorded | Compatibility-identification use approved and bounded in `NOTICE.md`; no provider license claimed |
+| GitHub owner and repository policy | partial | `pablogcloud` private repo, CODEOWNERS, Discussions and squash-only policy configured; private branch protection requires GitHub Pro or public visibility |
+| Security reporting | partial | Vulnerability alerts and automated fixes enabled; `labs@formm.mx` forwarding is unverified and GitHub private vulnerability reporting is public-repository only |
 | Secret/history and asset-provenance audit | partial | Local tree scan passed; final history/assets audit depends on approved repository contents |
 | Outward publication | blocked | Requires explicit approval; no publication was attempted |
 
 ## Completion rule
 
-Resolve every blocked gate, run the committed workflow on GitHub, perform the
-final license/asset/history/claim-link review, and then run the focused Phase 9
-Grok audit. Only a decisive audit `PASS` plus those external checks may change
-this record to verified.
+Verify the security forwarding address, perform the final history/asset/
+claim-link review, enable the public-only branch and vulnerability-reporting
+controls at the publication boundary, and then run the focused Phase 9 Grok
+audit. Only a decisive audit `PASS` plus those external checks may change this
+record to verified.
