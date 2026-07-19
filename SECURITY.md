@@ -8,10 +8,10 @@ when signed releases exist.
 
 ## Reporting a vulnerability
 
-Do not disclose suspected vulnerabilities in a public issue. Before publication,
-the repository owner must enable GitHub private vulnerability reporting and add
-a monitored security contact. Until that gate is complete, coordinate privately
-with the repository owner.
+Do not disclose suspected vulnerabilities in a public issue. Use GitHub private
+vulnerability reporting when it is available. Before public launch,
+`labs@formm.mx` must be configured and verified to forward to the project owner;
+once verified, it will be the published fallback reporting address.
 
 Include the affected commit or build, reproduction steps, expected impact, and
 whether the report involves local files, provider credentials, subprocesses,

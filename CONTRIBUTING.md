@@ -16,6 +16,10 @@ explicit-disclosure, keyboard-first design boundaries.
 Pull requests should explain the user-visible outcome, verification evidence,
 privacy or permission changes, and remaining limitations.
 
+Unless explicitly stated otherwise, contributions submitted for inclusion are
+licensed under the Apache License 2.0 under its contribution terms. No separate
+CLA is currently required.
+
 ## Safety rules
 
 - Never read provider credentials or commit secrets, local databases, prompts,

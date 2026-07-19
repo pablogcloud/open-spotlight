@@ -5,8 +5,8 @@ app and file search with locally installed Claude Code, Codex CLI, and Grok
 Build CLI providers.
 
 > **Pre-alpha:** this repository is under active development. There is no
-> supported or notarized public binary. The working product name, source
-> license, and third-party logo permissions must be resolved before publication.
+> supported or notarized public binary. Provider marks identify compatible
+> user-installed tools; they do not imply affiliation or endorsement.
 
 Open Spotlight is an independent project. It is not affiliated with, sponsored
 by, or endorsed by Apple, Anthropic, OpenAI, or xAI.
@@ -90,6 +90,6 @@ report suspected vulnerabilities in a public issue; follow [SECURITY.md](SECURIT
 
 ## License
 
-No open-source license has been approved yet. Until a license is added, the
-source is not licensed for redistribution. License selection is an explicit
-publication gate, not an implied permission.
+Open Spotlight is licensed under the [Apache License 2.0](LICENSE). Provider
+names and logos remain the property of their respective owners and are not
+licensed under Apache-2.0; see [NOTICE.md](NOTICE.md).

@@ -10,5 +10,5 @@ handled through the appropriate private channel.
 
 Maintainers may edit, reject, lock, or remove contributions and participation
 that violate these expectations. Serious or repeated violations may result in a
-temporary or permanent ban. Enforcement contacts will be published with the
-repository ownership decision before the project becomes public.
+temporary or permanent ban. Conduct reports may be sent privately to
+`labs@formm.mx` after its forwarding path is verified for public launch.
