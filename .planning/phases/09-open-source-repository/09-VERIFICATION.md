@@ -85,8 +85,8 @@ native builds at commit `d5439b9`.
   secret scanning, and secret-scanning push protection are enabled.
 - `main` requires the `verify` status check and a pull request, enforces linear
   history and conversation resolution, applies to administrators, and blocks
-  force pushes and deletion. CodeQL default setup has been requested for Swift;
-  its initial run must pass before the focused audit.
+  force pushes and deletion. A pinned manual-build CodeQL workflow targets
+  Swift with Xcode 26.3; its initial run must pass before the focused audit.
 
 ## Verification limits
 
@@ -117,11 +117,11 @@ native builds at commit `d5439b9`.
 | Security reporting | pass | GitHub private vulnerability reporting is enabled as the primary channel; the unverified email fallback is labelled inactive |
 | Secret/history and asset-provenance audit | pass with recorded limitation | Full history and tracked tree scan clean; logo hashes/ownership/use recorded, but upstream download URLs were not retained |
 | Outward publication | pass | Explicitly approved; public repository returns HTTP 200 |
-| Static analysis | pending | CodeQL default setup requested; initial Swift analysis must pass |
+| Static analysis | pending | Pinned manual-build Swift CodeQL workflow added; initial analysis must pass |
 | Focused Grok audit | pending | Run only after CodeQL and all machine gates pass |
 
 ## Completion rule
 
-Wait for the initial CodeQL analysis, then run the focused Phase 9 Grok audit.
+Wait for the initial manual-build CodeQL analysis, then run the focused Phase 9 Grok audit.
 Only a decisive audit `PASS`, a ready PR and a protected squash merge may change
 this record to verified.
