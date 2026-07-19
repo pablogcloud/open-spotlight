@@ -50,10 +50,10 @@ swift test
 open OpenLauncher.xcodeproj
 ```
 
-The Swift package is the current reproducible verification path. The committed
-CI definition is configured to exercise native Xcode Debug and Release builds,
-but it has not run on GitHub yet. Signing remains disabled for development
-builds.
+The Swift package is the current reproducible verification path. GitHub Actions
+checks strict formatting, runs the complete Swift test suite, regenerates the
+Xcode project, and exercises unsigned native Debug and Release builds. Signing
+remains disabled for development builds.
 
 ## Provider model
 
@@ -84,8 +84,9 @@ See [PRIVACY.md](PRIVACY.md) for the current technical boundary.
 
 The evidence-gated implementation plan lives in [.planning/ROADMAP.md](.planning/ROADMAP.md).
 Phase 0 and Phase 1 are verified. Phase 2, durable resumable indexing, is the
-current implementation phase. A source-only preview is tracked separately in
-Phase 9 and cannot be published until its legal and ownership gates are resolved.
+current implementation phase. This repository is a source-only pre-alpha; its
+publication evidence and remaining release limitations are tracked separately
+in Phase 9.
 
 ## Contributing and security
 

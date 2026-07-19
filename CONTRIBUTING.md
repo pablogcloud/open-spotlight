@@ -9,7 +9,7 @@ explicit-disclosure, keyboard-first design boundaries.
 2. Regenerate the Xcode project with `xcodegen generate` when `project.yml` or
    source membership changes.
 3. Run `swift format --in-place --recursive OpenLauncher OpenLauncherTests Package.swift`.
-4. Run `swift format lint --recursive OpenLauncher OpenLauncherTests Package.swift`.
+4. Run `swift format lint --strict --recursive OpenLauncher OpenLauncherTests Package.swift`.
 5. Run `swift test`.
 6. Exercise visible or lifecycle changes in the built macOS app.
 

@@ -9,9 +9,12 @@ when signed releases exist.
 ## Reporting a vulnerability
 
 Do not disclose suspected vulnerabilities in a public issue. Use GitHub private
-vulnerability reporting when it is available. Before public launch,
-`labs@formm.mx` must be configured and verified to forward to the project owner;
-once verified, it will be the published fallback reporting address.
+vulnerability reporting from the repository's Security page. This is the
+primary reporting channel for the source-only pre-alpha.
+
+`labs@formm.mx` is reserved as a future fallback address, but its forwarding is
+not yet verified. Do not rely on that address until this policy explicitly marks
+it active.
 
 Include the affected commit or build, reproduction steps, expected impact, and
 whether the report involves local files, provider credentials, subprocesses,
