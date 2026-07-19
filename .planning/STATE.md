@@ -1,8 +1,8 @@
 # Project State
 
-**Current phase:** 0 - Evidence re-baseline  
-**Status:** Planning complete; implementation not started against the new roadmap  
-**Branch:** `feat/walking-skeleton`  
+**Current phase:** 1 - Repository truth and index safety
+**Status:** Local implementation and verification passed; Grok audit returned no verdict, so Phase 1 is not complete
+**Branch:** `feat/walking-skeleton`
 **Repository:** no commits, no configured public remote
 
 ## Capability ledger
@@ -16,7 +16,7 @@
 | App/file/command suggestions | partial | Metadata/index suggestions exist; quality and routing remain incomplete |
 | Manual one-file disclosure | partial | Single-file prompt types exist; end-to-end provider disclosure gate must be rerun |
 | Local SQLite FTS and embeddings | partial | Prototype indexes limited UTF-8 formats and can return local references |
-| Safe approved-root indexing | absent | Whole-volume roots are currently accepted and system paths can dominate the crawl |
+| Safe approved-root indexing | implemented-unverified | Root/scope, preservation and live migration gates pass; required Grok verdict is unavailable |
 | Durable pause/resume/crash recovery | absent | Rebuild deletes the index and has no durable queue/run checkpoint |
 | FSEvents incremental updates | absent | No persistent change-event pipeline |
 | PDF/Office extraction | absent | Current support is TXT/Markdown/JSON/CSV only |
@@ -37,6 +37,6 @@ tests alone cannot establish completion.
 
 ## Immediate next action
 
-Execute Phase 0 re-baseline, then Phase 1. The currently running whole-volume
-index is test data, not a production-ready index and must not be represented as
-complete.
+Obtain or explicitly waive the missing bounded Grok verdicts, and align the
+installed CoreSimulator/Xcode versions for the native Xcode gate. Do not begin
+Phase 2 or describe Phase 1 as complete until that dependency is resolved.
