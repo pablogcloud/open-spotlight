@@ -12,9 +12,10 @@ Do not disclose suspected vulnerabilities in a public issue. Use GitHub private
 vulnerability reporting from the repository's Security page. This is the
 primary reporting channel for the source-only pre-alpha.
 
-`labs@formm.mx` is reserved as a future fallback address, but its forwarding is
-not yet verified. Do not rely on that address until this policy explicitly marks
-it active.
+As a fallback, email `labs@formm.mx`. Its forwarding path is active and reaches
+the project maintainer. GitHub private vulnerability reporting remains the
+preferred channel because it keeps the report and remediation discussion inside
+the repository's private security workflow.
 
 Include the affected commit or build, reproduction steps, expected impact, and
 whether the report involves local files, provider credentials, subprocesses,
